@@ -249,7 +249,7 @@ body {
 
 {% block footer %}
 <hr>
-&copy; 2020 Max Pierini &amp; Sandra Mazzoli &amp; Alessio Pamovio
+&copy; 2020 Max Pierini. Thanks to Sandra Mazzoli &amp; Alessio Pamovio
 </div>
 </div>
 </body>

@@ -212,7 +212,7 @@ $(document).ready(function () {
 {%- endblock header -%}
 {% block footer %}
 <hr>
-&copy; 2020 Max Pierini &amp; Sandra Mazzoli &amp; Alessio Pamovio
+&copy; 2020 Max Pierini. Thanks to Sandra Mazzoli &amp; Alessio Pamovio
 <!-- To enable disqus, uncomment the section below and provide your disqus_shortname -->
 
 </div>
