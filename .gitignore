@@ -1,3 +1,10 @@
+# macOS
+.DS_Store
+
+# temporary saved data
+*.pkl
+*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
