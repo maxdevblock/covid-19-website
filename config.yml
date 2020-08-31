@@ -6,7 +6,7 @@ name: "COVID-19 Data Analysis"
 repo: "https://github.com/maxdevblock/covid-19-website"
 
 # Footer added to the bottom of some webpages.
-footer: "&copy; 2020 Max Pierini &amp; Sandra Mazzoli &amp; Alessio Pamovio"
+footer: "&copy; 2020 Max Pierini. Thanks to Sandra Mazzoli &amp; Alessio Pamovio"
 
 # When set to True, populate the footer of each notebook with the git
 # commit id (SHA1) and commit modification date.

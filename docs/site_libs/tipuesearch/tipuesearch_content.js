@@ -1,4 +1,5 @@
 var tipuesearch = {"pages": [
+{"mainTitle": "Italy", "title": "Italy", "text": "Italy ", "tags": "", "mainUrl": "http://maxdevblock.github.io/covid-19-website/italy.html", "url": "http://maxdevblock.github.io/covid-19-website/italy.html#Italy"},
 {"mainTitle": "Countries", "title": "Countries", "text": "Countries ", "tags": "", "mainUrl": "http://maxdevblock.github.io/covid-19-website/countries.html", "url": "http://maxdevblock.github.io/covid-19-website/countries.html#Countries"},
 {"mainTitle": "Continents", "title": "Continents", "text": "Continents ", "tags": "", "mainUrl": "http://maxdevblock.github.io/covid-19-website/continents.html", "url": "http://maxdevblock.github.io/covid-19-website/continents.html#Continents"},
 {"mainTitle": "ITALY REGIONS", "title": "ITALY REGIONS", "text": "ITALY REGIONS ", "tags": "", "mainUrl": "http://maxdevblock.github.io/covid-19-website/italy/regions-single.html", "url": "http://maxdevblock.github.io/covid-19-website/italy/regions-single.html#ITALY-REGIONS"},
