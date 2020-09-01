@@ -1,6 +1,6 @@
-var italyArray = ['nation', 'predictions', 'provinces', 'regions-overview']
-var italyDict = {'Nazione-1': 'nation', 'On-this-website:-1': 'predictions', 'ITALY-PROVINCE-OVERVIEW-1': 'provinces', 'Regions-1': 'regions-overview'}
-var italyArrayMap = {'nation': 'Nazione', 'predictions': 'On this website:', 'provinces': 'ITALY PROVINCE OVERVIEW', 'regions-overview': 'Regions'}
+var italyArray = ['crescita', 'mod-pred', 'pan-cum', 'pan-var', 'provinces', 'rt']
+var italyDict = {'Crescita-1': 'crescita', 'On-this-website:-1': 'mod-pred', 'Dati-cumulativi-1': 'pan-cum', 'Variazioni-1': 'pan-var', 'ITALY-PROVINCE-OVERVIEW-1': 'provinces', 'R0-ed-Rt-1': 'rt'}
+var italyArrayMap = {'crescita': 'Crescita', 'mod-pred': 'On this website:', 'pan-cum': 'Dati cumulativi', 'pan-var': 'Variazioni', 'provinces': 'ITALY PROVINCE OVERVIEW', 'rt': 'R0 ed Rt'}
 var countriesArray = ['all', 'overview', 'single']
 var countriesDict = {'All-Countries-SIRD-1': 'all', 'Countries-Overview-1': 'overview', 'BEST-COUNTRIES-1': 'single'}
 var countriesArrayMap = {'all': 'All Countries SIRD', 'overview': 'Countries Overview', 'single': 'BEST COUNTRIES'}

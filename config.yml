@@ -14,7 +14,7 @@ add_commit_info: True
 
 # These subdirectories contain Jupyter notebooks that will be rendered
 # into webpages.
-include_dir: ["italy", "countries", "continents"]
+include_dir: ["Italia", "Nazioni", "Continenti"]
 
 # Do not add links in the navigation bar for the Jupyter notebooks in
 # these subdirectories.
@@ -41,9 +41,9 @@ source_label: "source"
 
 # Bootstrap theme. Current supported themes are "cerulean", "flatly"
 # and "readable"; see the docs/css directory.
-#theme: "readable"
+theme: "readable"
 #theme: "cerulean"
-theme: "flatly"
+#theme: "flatly"
 
 # Font used to show all code and text in the Jupyter notebooks (e.g.,
 # "Droid Sans"). Set to NULL to inherit the font used by the Bootsrap
