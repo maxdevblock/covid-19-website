@@ -13,7 +13,7 @@
 <title>COVID-19 Data Analysis</title>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -186,15 +186,15 @@ $(document).ready(function () {
 </li>
         
 <li>
-  <a href="./italy.html">Italy</a>
+  <a href="./Italia.html">Italia</a>
 </li>
         
 <li>
-  <a href="./countries.html">Countries</a>
+  <a href="./Nazioni.html">Nazioni</a>
 </li>
         
 <li>
-  <a href="./continents.html">Continents</a>
+  <a href="./Continenti.html">Continenti</a>
 </li>
         
       </ul>
