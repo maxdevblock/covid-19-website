@@ -247,27 +247,35 @@ body {
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>Max Pierini</p>
+</blockquote>
+<p>I dati grezzi sono</p>
+<ul>
+<li>filtrati con <em>Hampel filter</em>, finestra gaussiana di 7 giorni, $\sigma=2$ per isolare gli outliers dal trend</li>
+<li>smussati con media mobile, finestra gaussiana di 14 giorni, $\sigma=5$ per evidenziare il trend</li>
+</ul>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this jupyter notebook, we'll analyse italian COVID-19 data gathered from <em>Dipartimento di Protezione Civile</em> GitHub repository (<a href="https://github.com/pcm-dpc/COVID-19">link</a>).</p>
-<p>We'll consider following compartments</p>
-<ul>
-<li><strong>R</strong> recovered (total cumulative recovered cases)</li>
-<li><strong>D</strong> deaths (total cumulative deaths caused by COVID-19)</li>
-<li><strong>T</strong> confirmed (total cumulative cases)<ul>
-<li>infected + recovered + deaths</li>
-</ul>
-</li>
-<li><strong>I</strong> infected (current positive cases)<ul>
-<li>confirmed - (recovered + deaths)</li>
-<li><strong>H</strong> hospitalized + <strong>C</strong> quarantine, where hospitalized can ben mild or severe (intensive care)</li>
-</ul>
-</li>
-</ul>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Modello <strong>(S)IRD</strong></p>
 
 </div>
 </div>
@@ -302,6 +310,14 @@ CURRENT DATE IS:  2020-09-01 14:28:35
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -1018,7 +1034,7 @@ CURRENT DATE IS:  2020-09-01 14:28:35
 </div>
 <hr>
 &copy; 2020 Max Pierini. Thanks to Sandra Mazzoli &amp; Alessio Pamovio
-<p><small>Exported from <a href="https://github.com/maxdevblock/covid-19-website/blob/72f328fb36301e686bdf6169c397170871704333/Italia/Cumulativi.ipynb"><code>Italia/Cumulativi.ipynb</code></a> committed by Max Pierini on Wed Sep 2 01:02:18 2020 <a href="https://github.com/maxdevblock/covid-19-website/commit/72f328fb36301e686bdf6169c397170871704333">revision 1, 72f328f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="https://github.com/maxdevblock/covid-19-website/blob/a8f8e6b9d3c4e3f00fe0a3ef5d2783bde89d4c60/Italia/Cumulativi.ipynb"><code>Italia/Cumulativi.ipynb</code></a> committed by Max Pierini on Wed Sep 2 11:22:05 2020 <a href="https://github.com/maxdevblock/covid-19-website/commit/a8f8e6b9d3c4e3f00fe0a3ef5d2783bde89d4c60">revision 2, a8f8e6b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
