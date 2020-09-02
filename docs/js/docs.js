@@ -1,6 +1,6 @@
 var ItaliaArray = ['Crescita', 'Cumulativi', 'Immuni', 'Percent Positive', 'Previsioni', 'Province', 'Variazioni', 'stime Rt']
-var ItaliaDict = {'Stime-di-Crescita-1': 'Crescita', 'Dati-cumulativi-1': 'Cumulativi', 'Stima-downloads-App-Immuni-1': 'Immuni', 'Tasso-di-Positivit-1': 'Percent Positive', 'Modello-Predittivo-a-7gg-1': 'Previsioni', 'Casi-nelle-Province-1': 'Province', 'Variazioni-1': 'Variazioni', 'Numero-di-Riproduzione-Effettivo-1': 'stime Rt'}
-var ItaliaArrayMap = {'Crescita': 'Stime di Crescita', 'Cumulativi': 'Dati cumulativi', 'Immuni': 'Stima downloads App Immuni', 'Percent Positive': 'Tasso di Positività', 'Previsioni': 'Modello Predittivo a 7gg', 'Province': 'Casi nelle Province', 'Variazioni': 'Variazioni', 'stime Rt': 'Numero di Riproduzione Effettivo'}
+var ItaliaDict = {'Stime-di-Crescita-1': 'Crescita', 'Dati-cumulativi-1': 'Cumulativi', 'App-Immuni-1': 'Immuni', 'Tasso-di-Positivit-1': 'Percent Positive', 'Modello-Predittivo-a-7gg-1': 'Previsioni', 'Casi-nelle-Province-1': 'Province', 'Variazioni-1': 'Variazioni', 'Numero-di-Riproduzione-1': 'stime Rt'}
+var ItaliaArrayMap = {'Crescita': 'Stime di Crescita', 'Cumulativi': 'Dati cumulativi', 'Immuni': 'App Immuni', 'Percent Positive': 'Tasso di Positività', 'Previsioni': 'Modello Predittivo a 7gg', 'Province': 'Casi nelle Province', 'Variazioni': 'Variazioni', 'stime Rt': 'Numero di Riproduzione'}
 var NazioniArray = ['Panoramica', 'Sommario', 'single']
 var NazioniDict = {'Countries-Overview-1': 'Panoramica', 'All-Countries-SIRD-1': 'Sommario', 'BEST-COUNTRIES-1': 'single'}
 var NazioniArrayMap = {'Panoramica': 'Countries Overview', 'Sommario': 'All Countries SIRD', 'single': 'BEST COUNTRIES'}
