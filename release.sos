@@ -86,7 +86,7 @@ binders = [x for x in conf['include_dir'] if os.path.isdir(x)]
 # binders = [x for x in next(os.walk('./'))[1] if x not in conf['exclude_dir'] + ['docs'] and not x.startswith('.')]
 fail_if(len(binders) == 0, msg = err_msg)
 rmd_files = sum([[y for y in glob.glob(f"{x}/*.Rmd") if y not in conf['exclude_file']] for x in binders], [])
-notebook_files = sum([[y for y in glob.glob(f"{x}/*.ipynb") if y not in [f"{x}/index.ipynb", f"{x}/_index.ipynb", conf['homepage']] + conf['exclude_file']] for x in binders], []) + [x.replace('.Rmd', '.ipynb') for x in rmd_files]
+notebook_files = sum([[y for y in sorted(glob.glob(f"{x}/*.ipynb")) if y not in [f"{x}/index.ipynb", f"{x}/_index.ipynb", conf['homepage']] + conf['exclude_file']] for x in binders], []) + [x.replace('.Rmd', '.ipynb') for x in rmd_files]
 index_files = [f'{x}/index.ipynb' if os.path.isfile(f'{x}/index.ipynb') else f'{x}/_index.ipynb' for x in binders if x not in conf['hide_navbar']]
 pipeline_files = sum([[y for y in glob.glob(f"{x}/*.sos") if y not in conf['exclude_file']] for x in binders], [])
 generated_files = [f'docs/{x}.html' for x in binders if x not in conf['hide_navbar']] + (['docs/index.html'] if not conf['skip_homepage'] else []) + [f"docs/{path(x):d}/index.html" if f'{path(x):db}' == f'{path(x):bn}' else f"docs/{x.replace('.ipynb', '.html')}" for x in notebook_files] + ['docs/' + x.replace('.sos', '.pipeline.html') for x in pipeline_files] + ['docs/js/docs.js', 'docs/index.tpl'] + [f"docs/{x}.tpl" for x in binders]
@@ -182,7 +182,7 @@ python: expand = "${ }", input = 'docs/jnbinder.py'
   get_sha1_files([(${_input:r}, ${_output:r})], [], ${password}, write = True)
 
 [update-nb (Notebook to HTML converter)]
-# test:  --execute --ExecutePreprocessor.timeout=-1
+# test: ${"--execute" if str(_input.with_suffix(".Rmd")) in rmd_files else ""}
 parameter: notebook_files = list
 parameter: rmd_files = list
 parameter: conf = dict
@@ -194,7 +194,7 @@ nb_info = [get_commit_info(x[:-5] + 'Rmd' if path(x).with_suffix(".Rmd").exists(
 input: notebook_files, group_by = 1, paired_with = ['nb_info']
 output: [f"docs/{path(x):d}/index.html" if f'{path(x):db}' == f'{path(x):bn}' else f"docs/{x.replace('.ipynb', '.html')}" for x in notebook_files], group_by = 1
 bash: expand = "${ }", stderr = False
-  jupyter nbconvert ${_input:e} --output ${_output:ae} --template docs/${_input:d}.tpl --no-input ${"--execute" if str(_input.with_suffix(".Rmd")) in rmd_files else ""}
+  jupyter nbconvert ${_input:e} --output ${_output:ae} --template docs/${_input:d}.tpl --no-input --execute --ExecutePreprocessor.timeout=-1
   num=`grep -n -Fx '''${conf['footer']}''' ${_output:e} | tail -1 | sed 's/\([0-9]*\).*/\1/'`
   perl -i -lpe 'print "${_nb_info[0]}" if $. == '"$num"'+1' ${_output:e}
   if [[ ${conf['remove_whiteline']} -gt 0 ]]; then
