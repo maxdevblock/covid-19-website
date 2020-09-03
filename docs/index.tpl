@@ -197,6 +197,10 @@ $(document).ready(function () {
   <a href="./Continenti.html">Continenti</a>
 </li>
         
+<li>
+  <a href="./Links/index.html">Links</a>
+</li>
+        
       </ul>
     
 <ul class="nav navbar-nav navbar-right">

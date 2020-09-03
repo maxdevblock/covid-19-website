@@ -1,9 +1,12 @@
-var ItaliaArray = ['Crescita', 'Cumulativi', 'Immuni', 'Percent Positive', 'Previsioni', 'Province', 'Variazioni', 'stime Rt']
-var ItaliaDict = {'Stime-di-Crescita-1': 'Crescita', 'Dati-cumulativi-1': 'Cumulativi', 'App-Immuni-1': 'Immuni', 'Tasso-di-Positivit-1': 'Percent Positive', 'Modello-Predittivo-a-7gg-1': 'Previsioni', 'Casi-nelle-Province-1': 'Province', 'Variazioni-1': 'Variazioni', 'Numero-di-Riproduzione-1': 'stime Rt'}
-var ItaliaArrayMap = {'Crescita': 'Stime di Crescita', 'Cumulativi': 'Dati cumulativi', 'Immuni': 'App Immuni', 'Percent Positive': 'Tasso di Positività', 'Previsioni': 'Modello Predittivo a 7gg', 'Province': 'Casi nelle Province', 'Variazioni': 'Variazioni', 'stime Rt': 'Numero di Riproduzione'}
+var ItaliaArray = ['Crescita', 'Cumulativi', 'Immuni', 'Percent_Positive', 'Previsioni', 'Province', 'Variazioni', 'stime_Rt']
+var ItaliaDict = {'Stime-di-Crescita-1': 'Crescita', 'Dati-cumulativi-1': 'Cumulativi', 'App-Immuni-1': 'Immuni', 'Tasso-di-Positivit-1': 'Percent_Positive', 'Modello-Predittivo-a-7gg-1': 'Previsioni', 'Casi-nelle-Province-1': 'Province', 'Variazioni-1': 'Variazioni', 'Numero-di-Riproduzione-1': 'stime_Rt'}
+var ItaliaArrayMap = {'Crescita': 'Stime di Crescita', 'Cumulativi': 'Dati cumulativi', 'Immuni': 'App Immuni', 'Percent_Positive': 'Tasso di Positività', 'Previsioni': 'Modello Predittivo a 7gg', 'Province': 'Casi nelle Province', 'Variazioni': 'Variazioni', 'stime_Rt': 'Numero di Riproduzione'}
 var NazioniArray = ['Panoramica', 'Sommario', 'single']
 var NazioniDict = {'Overview-1': 'Panoramica', 'All-Countries-SIRD-1': 'Sommario', 'Single-countries-1': 'single'}
 var NazioniArrayMap = {'Panoramica': 'Overview', 'Sommario': 'All Countries SIRD', 'single': 'Single countries'}
 var ContinentiArray = ['Panoramica', 'single']
 var ContinentiDict = {'Overview-1': 'Panoramica', 'Single-continents-1': 'single'}
 var ContinentiArrayMap = {'Panoramica': 'Overview', 'single': 'Single continents'}
+var LinksArray = ['index']
+var LinksDict = {'Link-esterni-1': 'Links'}
+var LinksArrayMap = {'Links': 'Link esterni'}
