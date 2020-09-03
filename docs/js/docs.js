@@ -1,0 +1,12 @@
+var ItaliaArray = ['Crescita', 'Cumulativi', 'Immuni', 'Percent_Positive', 'Previsioni', 'Province', 'Variazioni', 'stime_Rt']
+var ItaliaDict = {'Stime-di-Crescita-1': 'Crescita', 'Dati-cumulativi-1': 'Cumulativi', 'App-Immuni-1': 'Immuni', 'Tasso-di-Positivit-1': 'Percent_Positive', 'Modello-Predittivo-a-7gg-1': 'Previsioni', 'Casi-nelle-Province-1': 'Province', 'Variazioni-1': 'Variazioni', 'Numero-di-Riproduzione-1': 'stime_Rt'}
+var ItaliaArrayMap = {'Crescita': 'Stime di Crescita', 'Cumulativi': 'Dati cumulativi', 'Immuni': 'App Immuni', 'Percent_Positive': 'Tasso di Positività', 'Previsioni': 'Modello Predittivo a 7gg', 'Province': 'Casi nelle Province', 'Variazioni': 'Variazioni', 'stime_Rt': 'Numero di Riproduzione'}
+var NazioniArray = ['Panoramica', 'Singole', 'Sommario']
+var NazioniDict = {'Overview-1': 'Panoramica', 'Single-countries-1': 'Singole', 'All-Countries-SIRD-1': 'Sommario'}
+var NazioniArrayMap = {'Panoramica': 'Overview', 'Singole': 'Single countries', 'Sommario': 'All Countries SIRD'}
+var ContinentiArray = ['Panoramica', 'Singoli']
+var ContinentiDict = {'Overview-1': 'Panoramica', 'Single-continents-1': 'Singoli'}
+var ContinentiArrayMap = {'Panoramica': 'Overview', 'Singoli': 'Single continents'}
+var LinksArray = ['Links_correlati', 'Links_esterni']
+var LinksDict = {'Links-Correlati-1': 'Links_correlati', 'Links-Esterni-Utili-1': 'Links_esterni'}
+var LinksArrayMap = {'Links_correlati': 'Links Correlati', 'Links_esterni': 'Links Esterni Utili'}
