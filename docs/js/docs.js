@@ -1,9 +1,9 @@
 var ItaliaArray = ['Compliance', 'Crescita', 'Cumulativi', 'Immuni', 'Percent_Positive', 'Previsioni', 'Province', 'Variazioni', 'stime_Rt']
 var ItaliaDict = {'Compliance-1': 'Compliance', 'Stime-di-Crescita-1': 'Crescita', 'Dati-cumulativi-1': 'Cumulativi', 'App-Immuni-1': 'Immuni', 'Tasso-di-Positivit-1': 'Percent_Positive', 'Modello-Predittivo-a-7gg-1': 'Previsioni', 'Casi-nelle-Province-1': 'Province', 'Variazioni-1': 'Variazioni', 'Numero-di-Riproduzione-1': 'stime_Rt'}
 var ItaliaArrayMap = {'Compliance': 'Compliance', 'Crescita': 'Stime di Crescita', 'Cumulativi': 'Dati cumulativi', 'Immuni': 'App Immuni', 'Percent_Positive': 'Tasso di Positività', 'Previsioni': 'Modello Predittivo a 7gg', 'Province': 'Casi nelle Province', 'Variazioni': 'Variazioni', 'stime_Rt': 'Numero di Riproduzione'}
-var NazioniArray = ['Panoramica', 'Singole', 'Sommario']
-var NazioniDict = {'Panoramica-Nazioni-1': 'Panoramica', 'Singole-Nazioni-1': 'Singole', 'SIRD-Nazioni-1': 'Sommario'}
-var NazioniArrayMap = {'Panoramica': 'Panoramica Nazioni', 'Singole': 'Singole Nazioni', 'Sommario': 'SIRD Nazioni'}
+var NazioniArray = ['Decessi', 'Panoramica', 'Singole', 'Sommario']
+var NazioniDict = {'Decessi-mediani-1': 'Decessi', 'Panoramica-Nazioni-1': 'Panoramica', 'Singole-Nazioni-1': 'Singole', 'SIRD-Nazioni-1': 'Sommario'}
+var NazioniArrayMap = {'Decessi': 'Decessi mediani', 'Panoramica': 'Panoramica Nazioni', 'Singole': 'Singole Nazioni', 'Sommario': 'SIRD Nazioni'}
 var ContinentiArray = ['Panoramica', 'Singoli']
 var ContinentiDict = {'Panoramica-Continenti-1': 'Panoramica', 'Singoli-Continenti-1': 'Singoli'}
 var ContinentiArrayMap = {'Panoramica': 'Panoramica Continenti', 'Singoli': 'Singoli Continenti'}
