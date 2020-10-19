@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/291661398.svg)](https://zenodo.org/badge/latestdoi/291661398)
+
 # EpiData
 
 Jupyter Notebook backed del sito www.epidata.it sull'analisi dei dati della pandemia di COVID-19 in Italia e stati esteri.
