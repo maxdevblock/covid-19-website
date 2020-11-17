@@ -288,6 +288,41 @@ body {
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Metodo">Metodo<a class="anchor-link" href="#Metodo">&#182;</a></h1><p>Il metodo <strong>EpiEstim</strong> (<a href="https://academic.oup.com/aje/article/178/9/1505/89262">Cori et al. 2013</a>) si basa sulla semplice assunzione che</p>
+$$
+R_t \sim \Gamma \left( 
+A = \sum_{i=0}^{\Delta} I_{t-\Delta} \;,\; 
+B = \sum_{i=0}^{\Delta} \gamma_{i} I_{t-\Delta} \right)
+$$<p>dove $I$ è l'incidenza, la distribuzione Gamma è parametrizzata su shape $A$ e rate $B$, $\Delta$ è un'intervallo temporale scelto (solitamente tra 7 e 14 giorni) e $\gamma_{i}$ è la massa di probabilità l'intervallo seriale $\gamma$ discretizzato</p>
+$$
+\gamma \sim \Gamma( \alpha , \beta )
+$$<p>in cui $\alpha$ e $\beta$ sono shape e rate.</p>
+<p>Dalle proprietà della distribuzione Gamma si evince pertanto che la media di $R_t$ è</p>
+$$
+\hat{R_t} = \frac{A}{B}
+$$<p>e la deviazione standard è</p>
+$$
+\sigma(R_t) = \frac{\sqrt{A}}{B}
+$$<p>dalla PDF della distribuzione Gamma, è possibile calcolare anche l'intervallo di credibilità (qui 99%).</p>
+<p>In questa sezione il metodo è implementato con Markov chain Monte Carlo in <code>JAGS</code> al fine di stimare una previsione dell'incidenza dato l'ultimo $R_t$ e la media dell'incidenza osservata nell'ultima settima $\hat{I_t}$ con approssimazione del metodo Bettencourt-Ribeiro (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0002185#s5">Bettencourt &amp; Ribeiro 2008</a>), secondo cui l'incidenza prevista dopo $\tau$ giorni è</p>
+$$
+I_{t+\tau} = \hat{I_t} \cdot \exp \left( \frac{\tau}{\hat{\gamma}} (R_t - 1) \right)
+$$<p>in cui $\hat{\gamma}$ è la media dell'intervallo seriale $\gamma$.</p>
+<p>Nella presente trattazione, i priors di $\hat{I_t}$ sono distribuiti gaussiani positivi con deviazione standard 100</p>
+$$
+\hat{I_t} \sim \mathcal{N}^+( \mu = \hat{I_t} \;,\; \sigma = 100 )
+$$<p>e i posteriors $I_{t+\tau}$ sono distribuiti Poisson</p>
+$$
+I_{t+\tau} \sim \mathcal{P}( \lambda = I_{t+\tau} )
+$$<p>Nelle altre sezioni, il metodo è implementato in <code>python</code>, tratto dall'implementazione in <code>R</code> del pacchetto EpiEstim (<a href="https://cran.r-project.org/web/packages/EpiEstim/EpiEstim.pdf">Package ‘EpiEstim’</a>).</p>
+<hr>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -1179,7 +1214,7 @@ Completed in 0:03:02.517909
 </div>
 <hr>
 &copy; 2020 Max Pierini. Thanks to Sandra Mazzoli &amp; Alessio Pamovio
-<p><small>Exported from <a href="https://github.com/maxdevblock/covid-19-website/blob/5a182243c46291181e720a1a65aac64eeeda5d5c/Italia/stime_Rt.ipynb"><code>Italia/stime_Rt.ipynb</code></a> committed by MaxDevBlock on Tue Nov 17 01:59:03 2020 <a href="https://github.com/maxdevblock/covid-19-website/commit/5a182243c46291181e720a1a65aac64eeeda5d5c">revision 104, 5a18224</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="https://github.com/maxdevblock/covid-19-website/blob/24cc91621a18a0b84f55d529a23bd40a67ee8bd8/Italia/stime_Rt.ipynb"><code>Italia/stime_Rt.ipynb</code></a> committed by MaxDevBlock on Tue Nov 17 08:59:41 2020 <a href="https://github.com/maxdevblock/covid-19-website/commit/24cc91621a18a0b84f55d529a23bd40a67ee8bd8">revision 105, 24cc916</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
