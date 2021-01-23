@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/flatly.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=ItaliaDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=ItaliaArray;
+            var docs_map=ItaliaArrayMap;
+            var pos=ItaliaArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>COVID-19 Data Analysis</title>
+
+<style type = "text/css">
+body {
+  
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">COVID-19 Data Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Home</a>
+</li>
+        
+<li>
+  <a href="../Italia.html">Italia</a>
+</li>
+        
+<li>
+  <a href="../Nazioni.html">Nazioni</a>
+</li>
+        
+<li>
+  <a href="../Continenti.html">Continenti</a>
+</li>
+        
+<li>
+  <a href="../Links.html">Links</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/maxdevblock/covid-19-website"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Strategie-di-vaccinazione">Strategie di vaccinazione<a class="anchor-link" href="#Strategie-di-vaccinazione">&#182;</a></h1><p>Confronto delle strategie di vaccinazione.</p>
+<blockquote><p>Max Pierini</p>
+</blockquote>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Abstract">Abstract<a class="anchor-link" href="#Abstract">&#182;</a></h1><blockquote><p>Dato un vaccino con efficacia $E_1$ in prima somministrazione
+ed efficacia $E_2 &gt; E_1$ in seconda somministrazione e sia 
+impossibile vaccinare subito l'intera popolazione con la seconda dose
+ma si possa vaccinare l'intera popolazione con la prima,
+se il ritardo nella seconda somministrazione non diminuisce
+$E_2$ al punto di avvicinarsi troppo alla soglia d'immunità di
+gregge HIT, la migliore strategia dipende dal rapporto $E_1/E_2$:
+se $E_1/E_2 &lt; 0.5$ è più vantaggioso vaccinare tutta la popolazione
+con la prima dose mentre se $E_1/E_2 &gt; 0.5$ è più vantaggioso
+vaccinare metà popolazione con le due dosi complete.
+In caso $E_1/E_2 = 0.5$ le due strategie sono equiparabili
+ma vaccinando metà popolazione con le due dosi si evita 
+di perdere in efficacia e si protegge nel frattempo 
+anche parte della popolazione non ancora vaccinata.
+Se invece $E_2$ diminuisca portandosi troppo vicino
+alla soglia HIT, è comunque più vantaggioso vaccinare
+metà popolazione con entrambe le dosi così da non
+rischiare di non poter raggiungere la minima copertura
+vaccinale per immunità di gregge.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Introduzione">Introduzione<a class="anchor-link" href="#Introduzione">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Si presenta un'analisi delle probabilità medie di infezione in una popolazione con differenti strategie di vaccinazione laddove un vaccino abbia efficacia $E_1$ in prima somministrazione ed $E_2 &gt; E_1$ in seconda somministrazione e non si possa vaccinare immediatamente l'intera popolazione.</p>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sia data una popolazione di $N$ soggetti in cui è in corso un'epidemia.</p>
+<p>Viene sintentizzato un vaccino con efficacia $E_1$ alla prima somministrazione ed efficacia $E_2&gt;E_1$ alla seconda somministrazione (senza limiti temporali rilevanti tra le due somministrazioni).</p>
+<p>L'azienda farmaceutica ci informa che potrà inizialmente inviarci solo $N$ dosi (anziché $2N$ necessarie a vaccinare tutta la popolazione con due dosi complete).</p>
+<p>Ci domandiamo se sia più utile</p>
+<ol>
+<li><p>vaccinare tutta la popolazione con una singola dose in attesa della seconda</p>
+</li>
+<li><p>vaccinare metà della popolazione con due dosi in attesa di poter vaccinare la restante</p>
+</li>
+</ol>
+<p>Supponiamo che ciascun soggetto abbia una probabilità a priori $p$ di infettarsi se viene in contatto con un soggetto infetto.</p>
+<p>Data l'efficacia vaccinale, la probabilità di infettarsi di un individuo vaccinato è quindi pari a</p>
+$$
+p_n = (1-E_n) p
+$$<p>dove $n$ è il numero di dosi ricevute (1 o 2).</p>
+<p>La probabilità di infettarsi $p[i]$ di un soggetto venuto a contatto con un soggetto che ha probabilità $p$ di essere infetto (perché a sua volta venuto in contatto con un soggetto sicuramente infetto) è pari al prodotto delle probabilità</p>
+$$
+p[i] = p \cdot p = p^2
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="nessuna-vaccinazione">nessuna vaccinazione<a class="anchor-link" href="#nessuna-vaccinazione">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Per fare un esempio, supponiamo che</p>
+<ul>
+<li><p>$E_1=50\%$ ed $E_2=100\%$</p>
+</li>
+<li><p>$N=10$</p>
+</li>
+<li><p>che 2 soggetti siano venuti in contatto con un soggetto sicuramente infetto</p>
+</li>
+<li><p>che ciascuno dei due soggetti venga in contatto con 4 soggetti suscettibili</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="dosi_vaccino1.png" alt="nessuna vaccinazione"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>La probabilità media di osservare soggetti infetti nella popolazione senza vaccino nell'esempio è</p>
+$$
+P_0 = \frac{2p + 8p^2}{10} = \frac{p + 4p^2}{5}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Generalizzando e indicando con $I$ i soggetti venuti in contatto con soggetti sicuramente infetti possiamo dire che la probabilità media di osservare soggetti infetti nella popolazione è</p>
+$$
+P_0 = \frac{ Ip + (N-I)p^2 }{ N }
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="strategia-(1)">strategia (1)<a class="anchor-link" href="#strategia-(1)">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Vaccinando tutta la popolazione con una singola dose, la probabilità di essere infetto dei due soggetti venuti a contatto con un soggetto sicuramente infetto è $p_1=(1-E_1)p$ (nell'esempio pertanto $p\cdot0.5$). Un soggetto che venisse in contatto con un soggetto con questa probabilità avrà pertanto una probabilità di infettarsi pari al prodotto della sua probabilità a priori (data la vaccinazione) e della probabilità di essere infetto del soggetto con cui è venuto in contatto, che in questo caso sono uguali. Nell'esempio</p>
+$$
+p[i] = p_1 p_1 = 0.25 \cdot p^2
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="dosi_vaccino2.png" alt="strategia (1)"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>La probabilità media della popolazione vaccinata con una dose nell'esempio è</p>
+$$
+P_1 = \frac{2(p\cdot0.5) + 8(p^2\cdot0.25)}{10} = \frac{p + 2p^2}{10}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Generalizzando possiamo dire che</p>
+$$
+P_1 = \frac{I (1-E_1) p + (N-I) (1-E_1)^2 p^2}{N}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="strategia-(2)">strategia (2)<a class="anchor-link" href="#strategia-(2)">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Vaccinando invece metà della popolazione con due dosi e supponendo che i contatti tra i soggetti siano equamente distribuiti, si avrebbe una situazione più eterogenea in cui alcuni soggetti sarebbero protetti con efficacia massimo $E_2$ (100% nell'esempio) e quindi con probabilità di infezione $p_2=(1-E_2)p$ mentre altri avrebbero una probabilità pari all'assenza di vaccinazione</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="dosi_vaccino3.png" alt="strategia (2)"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>La probabilità media di infezione della popolazione vaccinata a metà con due dosi nell'esempio è perciò</p>
+$$
+P_2 = \frac{p + 2p^2}{10}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>La generalizzazione di questa strategia necessita la suddivisione in 5 compartimenti.</p>
+<p>Il primo compartimento è quello degli $I$ soggetti venuti a contatto con un soggetto sicuramente infetto.</p>
+<p>Gli altri quattro compartimenti di $\frac{N-I}{4}$ soggetti (considerando che siano equamente distribuiti) sono i soggetti venuti in contatto con gli individui del primo compartimento.</p>
+<h2 id="Compartimento-1">Compartimento 1<a class="anchor-link" href="#Compartimento-1">&#182;</a></h2><blockquote><p>Soggetti venuti a contatto con un soggetto sicuramente infetto</p>
+</blockquote>
+<p>In questo caso metà dei soggetti $I$ non sono vaccinati, quindi la loro probabilità di infettarsi è pari a $p$ mentre l'altra metà è vaccinata con efficacia $E_2$, pertanto la somma delle probabilità di questi soggetti sarà</p>
+$$
+P_{2,1} = \frac{I}{2}p + \frac{I}{2}(1-E_2)p = \frac{I}{2}(2-E_2)p
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Compartimento-2">Compartimento 2<a class="anchor-link" href="#Compartimento-2">&#182;</a></h2><blockquote><p>Soggetti non vaccinati venuti in contatti con soggetti non vaccinati del primo compartimento</p>
+</blockquote>
+<p>In questo caso, ciascun soggetto avrà probabilità di infettarsi pari al prodotto delle probabilità a priori $p$, pertanto la somma delle loro probabilità sarà</p>
+$$
+P_{2,2} = \frac{N-I}{4}p^2
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Compartimento-3">Compartimento 3<a class="anchor-link" href="#Compartimento-3">&#182;</a></h2><blockquote><p>Soggetti vaccinati venuti in contatto con soggetti non vaccinati del primo compartimento</p>
+</blockquote>
+<p>La probabilità di ciascun soggetto sarà pari al prodotto della probabilità a priori $p$ dei soggetti del primo compartimento e della probabilità di infettarsi con seconda dose di vaccino di efficacia $E_2$, dunque la loro somma sarà</p>
+$$
+P_{2,3} = \frac{N-I}{4} (1-E_2)p^2
+$$<p>Notiamo che se $E_2=100\%$ la probabilità è nulla.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Compartimento-4">Compartimento 4<a class="anchor-link" href="#Compartimento-4">&#182;</a></h2><blockquote><p>Soggetti non vaccinati venuti in contatto con soggetti vaccinati del primo compartimento</p>
+</blockquote>
+<p>Similmente, la probabilità di ciascun soggetto sarà pari al prodotto della probabilità di infettarsi del soggetto del primo compartimento con vaccino di efficacia $E_2$ e della probabilità a priori $p$ di infettarsi, pertanto la loro somma sarà</p>
+$$
+P_{2,4} = \frac{N-I}{4}(1-E_2)p^2
+$$<p>Anche in questo caso se $E_2=100\%$ la probabilità è nulla.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Compartimento-5">Compartimento 5<a class="anchor-link" href="#Compartimento-5">&#182;</a></h2><blockquote><p>Soggetti vaccinati venuti in contatto con soggetti vaccinati del primo compartimento</p>
+</blockquote>
+<p>In quest'ultimo compartimento, la probabilità di ciascun soggetto sarà pari al prodotto della probabilità di infettarsi del soggetto del primo compartimento con vaccino di efficacia $E_2$ e della probabilità di infettarsi dei soggetti con medesima vaccinazione di efficacia $E_2$, pertanto la loro somma sarà</p>
+$$
+P_{2,5} = \frac{N-I}{4}(1-E_2)^2 p^2
+$$<p>Anche in questo compartimento se $E_2=100\%$ la probabilità è nulla.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="MEDIA">MEDIA<a class="anchor-link" href="#MEDIA">&#182;</a></h2><p>Dalla somma degli ultimi quattro compartimenti otteniamo</p>
+$$
+\frac{N-I}{4} \left[ 1 + 2(1 - E_2) + (1-E_2)^2 \right] p^2 =
+\frac{N-I}{4} (2 - E_2)^2 p^2
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Pertanto la media di tutti compartimenti, ovvero la probabilità media di osservare soggetti infetti nella popolazione, risulta</p>
+$$
+P_2 = \frac{ \frac{I}{2}(2 - E_2)p + \frac{N-I}{4} (2 - E_2)^2 p^2 }{ N }
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Proporzione-strategie">Proporzione strategie<a class="anchor-link" href="#Proporzione-strategie">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>La proporzione $P^*$ tra la probabilità media $P_1$ della strategia 1 e la probabilità media $P_2$ della strategia 2 è definita da</p>
+$$
+P^* = \frac{P_1}{P_2} =
+\frac{I (1-E_1) p + (N-I) (1-E_1)^2 p^2}{\frac{I}{2}(2 - E_2)p + \frac{N-I}{4} (2 - E_2)^2 p^2}
+$$<p>è pertanto dimostrabile che $P^* = 1$, ovvero le due strategie sono equiparabili, se e solo se $E_1 = 0.5 \cdot E_2$ ovvero se l'efficacia della prima somministrazione è pari a metà dell'efficacia della seconda somministrazione.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Infatti, per $E_1 = 0.5 \cdot E_2$</p>
+$$
+P^* = \frac{P_1}{P_2} =
+\frac{I (1-0.5 \cdot E_2) p + (N-I) (1-0.5 \cdot E_2)^2 p^2}{\frac{I}{2}(2 - E_2)p + \frac{N-I}{4} (2 - E_2)^2 p^2}
+$$<p>da cui</p>
+$$
+P^* = \frac{P_1}{P_2} =
+\frac{\frac{I}{2}(2 - E_2)p + \frac{N-I}{4} (2 - E_2)^2 p^2}{\frac{I}{2}(2 - E_2)p + \frac{N-I}{4} (2 - E_2)^2 p^2} = 1
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Per $E_1 \neq 0.5 \cdot E_2$, indicando $E_1 = (0.5 + x) E_2$ dove $-0.5 &lt; x &lt; 0.5$</p>
+$$
+P^* = \frac{P_1}{P_2} =
+\frac{I (1 - (0.5 + x) E_2) p + (N-I) (1 - (0.5 + x) E_2)^2 p^2}{\frac{I}{2}(2 - E_2)p + \frac{N-I}{4} (2 - E_2)^2 p^2}
+$$<p>da cui</p>
+$$
+P^* = \frac{P_1}{P_2} =
+\frac{\frac{I}{2}(2 - E_2 - 2xE_2)p + \frac{N-I}{4} (2 - E_2 - 2xE_2)^2 p^2}{\frac{I}{2}(2 - E_2)p + \frac{N-I}{4} (2 - E_2)^2 p^2}
+$$<p>e risulta evidente che</p>
+<ul>
+<li><p>$x&gt;0 \Rightarrow P^*&lt;1$, ovvero se l'efficacia in prima dose è maggiore della metà dell'efficacia in seconda dose, $P_1 &lt; P_2$ ed è più vantaggioso vaccinare tutta la popolazione con la prima dose (strategia 1)</p>
+</li>
+<li><p>$x&lt;0 \Rightarrow P^*&gt;1$, ovvero se l'efficacia in prima dose è minore della metà dell'efficacia in seconda dose, $P_1 &gt; P_2$ ed è più vantaggioso vaccinare metà popolazione con le due dosi (strategia 2)</p>
+</li>
+<li><p>$x=0 \Rightarrow P^*=1$, ovvero se l'efficacia in prima dose è uguale alla metà dell'efficacia in seconda dose, le due strategie sono equiparabili</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p>Notiamo inoltre dal grafico di $P^*$ in funzione di $E_1 / E_2$ che la maggior 
+efficacia della strategia 2 in caso di $E_1 &lt; 0.5 \cdot E_2$ (ovvero $x&lt;0$) è limitata superiormente a 
+circa 13% quando $E_1 \simeq 0.27 \cdot E_2$ ovvero quando l'efficacia
+del vaccino in prima dose è pari al 27% circa dell'efficacia in seconda dose
+(punto rosso in figura),
+mentre laddove $E_1 &gt; 0.5 \cdot E_2$ il vantaggio della prima strategia
+è notevolmente aumentato infatti ad esempio per $E_1 = (0.5+0.27) E_2 = 0.77 \cdot E_2$,
+il vantaggio della prima strategia è del 48% circa quindi più che triplicato
+(punto giallo in figura).</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="conclusione">conclusione<a class="anchor-link" href="#conclusione">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Riassumendo, dal punto di vista della probabilità media di infezione nella popolazione</p>
+<ul>
+<li><p>per $E_1 = 0.5 \cdot E_2$ le due strategie sono sovrapponibili</p>
+</li>
+<li><p>per $E_1 &gt; 0.5 \cdot E_2$ è più vantaggiosa la prima strategia</p>
+</li>
+<li><p>per $E_1 &lt; 0.5 \cdot E_2$ è più vantaggiosa la seconda strategia</p>
+</li>
+</ul>
+<p>Se pertanto il rapporto tra l'efficacia $E_1$ e $E_2$ non sia noto con sicurezza, ma non lontano dal 50%, la strategia 2 della vaccinazione completa a metà popolazione è più vantaggiosa perché si eviterebbe 
+di perdere in efficacia e in caso $E_2$ fosse prossima al 100%, metà dei soggetti non ancora vaccinati sarebbero protetti abbattendo il loro rischio di infezione molto al di sotto della probabilità a priori, mentre nel caso della strategia 1 della vaccinazione in prima dose a tutta la popolazione, tutti i soggetti avrebbero la medesima probabilità sicuramente non nulla di infettarsi e si perderebbe in efficacia $E_2$ alla seconda somministrazione.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p>Nel caso, ad esempio, di un vaccino con efficacia $E_1=50$%
+ed efficacia $E_2=95$%, quindi con proporzione
+$E_1 / E_2 = 0.53 &gt; 0.5$
+(come si evince dai dati della sperimentazione fase 3
+del vaccino Pfizer Cominarty)
+, sarebbe maggiormente efficace
+la strategia 1 infatti otteniamo</p>
+$$
+P_1 = 25.2\%
+$$$$
+P_2 = 27.3\%
+$$<p>ovvero con la strategia 2 avremmo il 2.1% di 
+probabilità media di infezione in più nella popolazione.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p>Ma se l'efficacia $E_1$ fosse minore, ad esempio $E_1=40$%
+con medesima efficacia $E_2=95$%, quindi con proporzione
+$E_1 / E_2 = 0.42 &lt; 0.5$, sarebbe maggiormente efficace
+la strategia 2 infatti otterremmo</p>
+$$
+P_1 = 34.1\%
+$$$$
+P_2 = 27.3\%
+$$<p>ovvero con la strategia 1 avremmo il 6.8% di 
+probabilità media di infezione in più nella popolazione.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p>Parimenti, se l'efficacia $E_1=50\%$ fosse confermata, 
+ma $E_2$ fosse minore ad esempio $E_2=90$%, quindi con proporzione
+$E_1 / E_2 = 0.56 &gt; 0.5$, sarebbe maggiormente efficace
+la strategia 1 infatti otterremmo</p>
+$$
+P_1 = 25.2\%
+$$$$
+P_2 = 29.5\%
+$$<p>ovvero con la strategia 2 avremmo il 4.3% di 
+probabilità media di infezione in più nella popolazione.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Pertanto, nel caso in cui un ritardo nella somministrazione della seconda dose diminuisse l'efficacia $E_2$, restando invariata l'efficacia della prima dose $E_1$, al punto che il rapporto $E_1 / E_2 &gt; 0.5$ sarebbe preferibile la strategia 1, ovvero vaccinare l'intera popolazione con la prima somministrazione.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>È dunque evidente che la scelta della migliore strategia dal punto di vista probabilistico, considerando equamente distribuiti i contatti tra i soggetti e condivisa la probabilità $p$ a priori di infettarsi in caso di contatto, dipende dal rapporto tra l'efficacia delle due somministrazioni e dall'eventuale diminuzione dell'efficacia della seconda somministrazione dovuta al ritardo.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Se però la riduzione dell'efficacia $E_2$ fosse eccessiva al punto da avvicinarsi troppo alla soglia dell'immunità di gregge, la strategia 2 sarebbe comunque preferibile nonostante rischi di aumentare la probabilità di infetti nella popolazione se $E_1/E_2&gt;0.5$.</p>
+<p>Infatti, la minima copertura vaccinale $V$, dato il numero di riproduzione di base $R_0$ è pari a</p>
+$$
+V = \frac{ 1 - \frac{1}{R_0} }{ E }
+$$<p>dove $1 - \frac{1}{R_0}$ è la soglia di immunità di gregge <strong>HIT</strong> (Herd Immunity Threshold).</p>
+<p>Se quindi $E &lt; \mathbf{HIT}$, si dovrebbe vaccinare più del 100% della popolazione, il che è ovviamente impossibile.</p>
+<p>Pertanto, se il ritardo nella seconda somministrazione diminuisce l'efficacia $E_2$, finché $E_2 &gt; \mathbf{HIT}$ la scelta della strategia dipende dal rapporto $E_1 / E_2$, ma nel momento in cui $E_2 \simeq \mathbf{HIT}$ ovvero l'efficacia della seconda somministrazione di avvicini troppo alla soglia per effetto gregge, la strategia 1 sarebbe comunque da evitare per non perdere di efficacia e rischiare di non poter raggiungere la minima copertura vaccinale quando la seconda fornitura sarà disponibile per il resto della popolazione.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2020 Max Pierini. Thanks to Sandra Mazzoli &amp; Alessio Pamovio
+<p><small>Exported from <a href="https://github.com/maxdevblock/covid-19-website/blob/a68dddbd724c10dd7f4e2a9d0e797d4f1d33e64c/Italia/Vaccini_strategie.ipynb"><code>Italia/Vaccini_strategie.ipynb</code></a> committed by maxdevblock on Sat Jan 23 21:11:40 2021 <a href="https://github.com/maxdevblock/covid-19-website/commit/a68dddbd724c10dd7f4e2a9d0e797d4f1d33e64c">revision 2, a68dddb</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
