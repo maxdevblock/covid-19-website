@@ -312,9 +312,9 @@ body {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="COVID-19">COVID-19<a class="anchor-link" href="#COVID-19">&#182;</a></h2><p>La data dei casi di COVID-19 del dataset DPC è relativa al giorno della comunicazione della diagnosi.</p>
 <p>È necessario pertanto stimare il giorno dell'infezione per poter correlare i valori degli inquinanti.</p>
-<p>Dal confronto con i casi diagnosticati di COVID-19 del dataset nazionale del DPC e i casi sintomatici del <a href="https://www.epicentro.iss.it/coronavirus/sars-cov-2-sorveglianza-dati">dataset dell'Istituto Superiore di Sanità</a> (<strong>ISS</strong>) possiamo stimare l'intervallo tra inizio dei sintomi e comunicazione della diagnosi da test positivo (<strong>onset-to-communication</strong>).</p>
+<p>Dal confronto con i casi diagnosticati di COVID-19 del dataset nazionale del DPC e i casi sintomatici del <a href="https://www.epicentro.iss.it/coronavirus/sars-cov-2-sorveglianza-dati">dataset dell'Istituto Superiore di Sanità</a> (<strong>ISS</strong>) possiamo stimare l'intervallo tra inizio dei sintomi e comunicazione della diagnosi da test positivo (<strong>onset-to-diagnosis-communication</strong>).</p>
 <p>Grazie allo studio di <a href="https://arxiv.org/abs/2004.11342">Flaxman et al. 2020</a> conosciamo la distribuzione Gamma dell'intervallo tra infezione e inizio dei sintomi (<strong>infection-to-onset</strong>).</p>
-<p>Da questi possiamo ottenere perciò una stima dell'intervallo tra infezione e comunicazione della diagnosi (<strong>infection-to-communication</strong>).</p>
+<p>Da questi possiamo ottenere perciò una stima dell'intervallo tra infezione e comunicazione della diagnosi (<strong>infection-to-diagnosis-communication</strong>).</p>
 <p>Per ciascuna provincia lombarda, dai nuovi casi giornalieri è stato stimato il trend tramite decomposizione stagionale su periodo di 7 giorni. Sulla base trend abbiamo ottenuto la stima dell'incidenza giornaliera su 100 000 abitanti. Il metodo utilizzato e i dati sono disponibili nel materiale supplementare all'indirizzo <a href="https://github.com/maxdevblock/covid-19-air-quality">GitHub</a>.</p>
 
 </div>
@@ -385,7 +385,7 @@ $$<p>da cui sono stati ottenuti 10 000 campioni random.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="infection-to-communication">infection-to-communication<a class="anchor-link" href="#infection-to-communication">&#182;</a></h1>
+<h1 id="Intervalli-temporali">Intervalli temporali<a class="anchor-link" href="#Intervalli-temporali">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -690,7 +690,7 @@ ovvero nel probabile giorno dell'infezione.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Stima della distribuzione (KDE, kernel density estimate) dei coefficienti di correllazione nell'intervallo infection-to-diagnosis-communication.</p>
+<p>Stima della distribuzione (KDE, kernel density estimate) dei coefficienti di correlazione nell'intervallo infection-to-diagnosis-communication.</p>
 
 </div>
 </div>
@@ -903,7 +903,7 @@ ovvero nel probabile giorno dell'infezione.</p>
 <p>Grazie alle proprietà ossidanti è però utilizzato per disinfezione e sanificazione di ambienti.
 Essendo un potente ossidante, ha attività antibatterica ed è in grado di potenziare le difese organiche aspecifiche della pelle, inoltre è in grado di inibire la crescita e la proliferazione dei dermatofiti in corso di dermatite micotica. In medicina veterinaria viene utilizzato in dermatologia come terapia delle piodermiti superficiali e profonde; nelle lesioni di origine funginea, traumatica e immunologica, e anche nei casi di ferite caratterizzate da prurito e infiammazione. L'ozono trova ora impiego anche come terapia delle otiti di origine batterica e funginea, dove svolge attività antalgica e antiinfiammatoria. In ortopedia e chirurgia viene utilizzato per indurre una rapida cicatrizzazione in caso di ferite chirurgiche, fistole, suture e fissatori esterni.</p>
 <p>Recentemente è stata dimostrata inattivazione di SARS-CoV-2 per esposizione a gas ozono.</p>
-<h1 id="PM10-e-PM25">PM10 e PM25<a class="anchor-link" href="#PM10-e-PM25">&#182;</a></h1><p><a href="https://it.wikipedia.org/wiki/Particolato">https://it.wikipedia.org/wiki/Particolato</a></p>
+<h2 id="PM10-e-PM25">PM10 e PM25<a class="anchor-link" href="#PM10-e-PM25">&#182;</a></h2><p><a href="https://it.wikipedia.org/wiki/Particolato">https://it.wikipedia.org/wiki/Particolato</a></p>
 <p>Il particolato atmosferico è un'insieme delle sostanze solide o liquide sospese in aria (con la quale formano una miscela detta "aerosol atmosferico") che hanno dimensioni che variano da pochi nanometri a 100 µm, più frequenti nelle aree urbane. Esempi di sostanze presenti nel particolato sono fibre naturali e artificiali, pollini, spore, particelle carboniose, metalli, silice e inquinanti liquidi.</p>
 <p>L'origine di tali sostanze può essere naturale o associata all'attività umana. Il particolato è pericoloso per la salute umana e di altri esseri viventi. È stato definito come la forma più pericolosa di inquinamento atmosferico,[11] a causa della sua capacità di penetrare nei polmoni e nel sangue, causando quindi attacchi cardiaci, malattie respiratorie, e morte prematura.</p>
 <p>In particolare, si distingue in:</p>
@@ -948,7 +948,7 @@ Essendo un potente ossidante, ha attività antibatterica ed è in grado di poten
 </div>
 <hr>
 &copy; 2020 Max Pierini. Thanks to Sandra Mazzoli &amp; Alessio Pamovio
-<p><small>Exported from <a href="https://github.com/maxdevblock/covid-19-website/blob/6c969466a3a59d54369c66c1d9be8e4bd697a245/Italia/AQI.ipynb"><code>Italia/AQI.ipynb</code></a> committed by maxdevblock on Tue Mar 2 19:48:45 2021 <a href="https://github.com/maxdevblock/covid-19-website/commit/6c969466a3a59d54369c66c1d9be8e4bd697a245">revision 3, 6c96946</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="https://github.com/maxdevblock/covid-19-website/blob/2d65f555d02e5c314e6f76cecec6fe7a0a653d9c/Italia/AQI.ipynb"><code>Italia/AQI.ipynb</code></a> committed by MaxDevBlock on Tue Mar 2 22:52:24 2021 <a href="https://github.com/maxdevblock/covid-19-website/commit/2d65f555d02e5c314e6f76cecec6fe7a0a653d9c">revision 5, 2d65f55</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
